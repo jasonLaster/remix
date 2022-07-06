@@ -1,8 +1,10 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
-import { devices } from "@playwright/test";
+// import { devices } from "@playwright/test";
+const { devices } = require("@replayio/playwright");
 
 const config: PlaywrightTestConfig = {
   testDir: ".",
+
   testMatch: ["**/*-test.ts"],
   /* Maximum time one test can run for. */
   timeout: 30_000,
@@ -14,13 +16,13 @@ const config: PlaywrightTestConfig = {
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: process.env.CI ? "github" : [["html", { open: "never" }]],
-  use: { actionTimeout: 0 },
+  use: { actionTimeout: 0,  headless: true },
 
   projects: [
     {
-      name: "chromium",
+      name: "replay-firefox",
       use: {
-        ...devices["Desktop Chrome"],
+        ...devices["Replay Firefox"],
       },
     },
   ],
